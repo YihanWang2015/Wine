@@ -1,6 +1,6 @@
-﻿//Author: David Barnes
+﻿//Author: Yihan Wang
 //CIS 237
-//Assignment 1
+//Assignment 5
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace assignment1
 {
     class UserInterface
     {
-        const int maxMenuChoice = 5;
+        const int maxMenuChoice = 7;
         //---------------------------------------------------
         //Public Methods
         //---------------------------------------------------
@@ -64,17 +64,53 @@ namespace assignment1
         public string[] GetNewItemInformation()
         {
             Console.WriteLine();
-            Console.WriteLine("What is the new items Id?");
+            Console.WriteLine("What is the items Id?");
             Console.Write("> ");
             string id = Console.ReadLine();
-            Console.WriteLine("What is the new items Description?");
+            Console.WriteLine("What is the items Description?");
             Console.Write("> ");
             string description = Console.ReadLine();
-            Console.WriteLine("What is the new items Pack?");
+            Console.WriteLine("What is the items Pack?");
             Console.Write("> ");
             string pack = Console.ReadLine();
+            Console.WriteLine("What is the items Price?");
+            Console.Write("> ");
+            string price = Console.ReadLine();
+            Console.WriteLine("Is the item Active?[Y/n]");
+            Console.Write("> ");
+            string active = Console.ReadLine();
 
-            return new string[] { id, description, pack };
+            if (active == "n" || active == "N")
+                active = "false";
+            else
+                active = "true";
+
+            return new string[] { id, description, pack, price, active };
+        }
+
+        //Get Update Item Information From The User.
+        public string[] GetUpdateItemInformation()
+        {
+            Console.WriteLine();
+            Console.WriteLine("What is the items Description?");
+            Console.Write("> ");
+            string description = Console.ReadLine();
+            Console.WriteLine("What is the items Pack?");
+            Console.Write("> ");
+            string pack = Console.ReadLine();
+            Console.WriteLine("What is the items Price?");
+            Console.Write("> ");
+            string price = Console.ReadLine();
+            Console.WriteLine("Is the item Active?[Y/n]");
+            Console.Write("> ");
+            string active = Console.ReadLine();
+
+            if (active == "n" || active == "N")
+                active = "false";
+            else
+                active = "true";
+
+            return new string[] {description, pack, price, active};
         }
 
         //Display Import Success
@@ -88,17 +124,20 @@ namespace assignment1
         public void DisplayImportError()
         {
             Console.WriteLine();
-            Console.WriteLine("There was an error importing the CSV");
+            Console.WriteLine("There was an error importing the database");
         }
 
         //Display All Items
-        public void DisplayAllItems(string[] allItemsOutput)
+        public void DisplayAllItems(BeverageYWangEntities beverageYWangEntities)
         {
+            
             Console.WriteLine();
-            foreach (string itemOutput in allItemsOutput)
-            {
-                Console.WriteLine(itemOutput);
-            }
+            foreach (Beverage printBeverage in beverageYWangEntities.Beverages)
+                {
+                Console.WriteLine(printBeverage.id + " " + printBeverage.name + " " + 
+                printBeverage.pack+ " " + printBeverage.price + " " + printBeverage.active);
+                }
+            
         }
 
         //Display All Items Error
@@ -109,11 +148,12 @@ namespace assignment1
         }
 
         //Display Item Found Success
-        public void DisplayItemFound(string itemInformation)
+        public void DisplayItemFound(Beverage beverageFound)
         {
             Console.WriteLine();
             Console.WriteLine("Item Found!");
-            Console.WriteLine(itemInformation);
+            Console.WriteLine(beverageFound.id + " " +  beverageFound.name + " " +
+                beverageFound.pack + " " + beverageFound.price + " " + beverageFound.active);
         }
 
         //Display Item Found Error
@@ -148,11 +188,13 @@ namespace assignment1
             Console.WriteLine();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine();
-            Console.WriteLine("1. Load Wine List From CSV");
+            Console.WriteLine("1. Load Wine List From Database");
             Console.WriteLine("2. Print The Entire List Of Items");
             Console.WriteLine("3. Search For An Item");
             Console.WriteLine("4. Add New Item To The List");
-            Console.WriteLine("5. Exit Program");
+            Console.WriteLine("5. Update An Item From The List");
+            Console.WriteLine("6. Delete An Item From The List");
+            Console.WriteLine("7. Exit Program");
         }
 
         //Display the Prompt
